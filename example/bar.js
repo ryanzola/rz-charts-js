@@ -3,11 +3,11 @@
  * bar.js
  * simple, elegant bar chart library
  * 04/11/2019 - version 1.0
- * www.github.com/ryanzola
+ * <https://github.com/ryanzola/rz-charts-js>
  *
- * Copyright 2017 ryanzola
- * Relased under the MIT License
- * {license url}
+ * Copyright 2017 ryanzola <ryanzola@me.com>
+ * Released under the MIT License
+ * <https://github.com/ryanzola/rz-charts-js/blob/master/LICENSE.md>
  *
  */
 
