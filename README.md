@@ -9,23 +9,30 @@ bar.js is a Canvas based simple Javascript bar chart library to provide a config
 ![](https://github.com/ryanzola/rz-charts-js/blob/master/bar.png)
 
 ## Installation
+
 Download the bar.min.js and include it in your project.
+
 ```html
 <script src="bar.min.js"></script>
 ```
 
 ## Usage
+
 To create the bar chart, you will need a block-level container such as a ```html <div>``` or ```html <p>```
+
 ```html
 <div id="chart">This will be your bar chart!</div>
 ```
+
 Then you can create the BarChart in your Javascript file!
+
 ```js
 let barChart = new BarChart(chartId, chartWidth, chartHeight, data);
 ```
 
 ### Parameters
-* `chartId - containerId (String)`  
+
+* `chartId - containerId (String)`
   * Defines the id of the container like "chart"  
 * `chartWidth - (Integer)`  
   * Defines the width of the chart like 500  
@@ -45,4 +52,5 @@ let barChart = new BarChart(chartId, chartWidth, chartHeight, data);
 ```
 
 ## License
+
 [MIT](LICENSE.md) © [Ryan Zola](https://github.com/ryanzola)
