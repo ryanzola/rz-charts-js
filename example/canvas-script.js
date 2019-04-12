@@ -5,15 +5,15 @@ window.onload = function() {
 
   // Chart Data
   var data = [
-    {label: 'Jan', value: getRandomInt(min, max)},
-    {label: 'Feb', value: getRandomInt(min, max)},
-    {label: 'March', value: getRandomInt(min, max)},
-    {label: 'April', value: getRandomInt(min, max)},
-    {label: 'May', value: getRandomInt(min, max)}
+    {label: "Jan", value: getRandomInt(min, max)},
+    {label: "Feb", value: getRandomInt(min, max)},
+    {label: "March", value: getRandomInt(min, max)},
+    {label: "April", value: getRandomInt(min, max)},
+    {label: "May", value: getRandomInt(min, max)}
   ];
 
   // Chart Specifications
-  var targetId = 'chart';
+  var targetId = "chart";
   var canvasWidth = 600;
   var canvasHeight = 450;
 
