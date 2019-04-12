@@ -55,11 +55,12 @@ class BarChart {
     let borderColor;
     let barX;
     let barY;
-
     let barWidth;
     let barHeight;
-    
+    let currentValue;
+
     for(let i = 0; i < this.itemsNum; i++) {
+      currentValue = this.values[i];
       color = this.createRandomColor();
       fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${fillOpacity})`;
       borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
@@ -70,7 +71,7 @@ class BarChart {
       barY = this.height - this.verticalMargin;
   
       barWidth = this.horizontalLabelFrequency - 2 * this.horizontalLabelFrequency / this.axisRatio;
-      barHeight = -1 * this.verticalAxisWidth * this.values[i] / this.maxValue;
+      barHeight = -1 * this.verticalAxisWidth * currentValue / this.maxValue;
   
       this.context.fillStyle = fillColor;
       this.context.strokeStyle = borderColor;
@@ -242,6 +243,7 @@ class BarChart {
   drawHorizontalLabels() {
     let horizonalLabelX;
     let horizonalLabelY;
+    let currentLabel;
 
     // text specifications
     this.labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize}px ${this.fontFamily}`;
@@ -252,10 +254,11 @@ class BarChart {
   
     // draw labels
     for(let i = 0; i < this.itemsNum; i++) {
+      currentLabel = this.labels[i];
       horizonalLabelX = this.horizontalMargin + i * this.horizontalLabelFrequency + this.horizontalLabelFrequency / 2;
       horizonalLabelY = this.height - this.verticalMargin + this.verticalMargin / this.axisRatio;
   
-      this.context.fillText(this.labels[i], horizonalLabelX, horizonalLabelY);  
+      this.context.fillText(currentLabel, horizonalLabelX, horizonalLabelY);  
     }
   }
 
