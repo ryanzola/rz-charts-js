@@ -36,10 +36,13 @@ let barChart = new BarChart(chartId, chartWidth, chartHeight, data);
 
 * `chartId - containerId (String)`
   * Defines the id of the container like "chart"  
+
 * `chartWidth - (Integer)`  
   * Defines the width of the chart like 500  
+
 * `chartHeight - (Integer)`  
-  * Defines the height of the chart like 500  
+  * Defines the height of the chart like 500
+
 * `data - (Objects Array)`  
   * Defines the data objects. The objects should have 2 key-value pairs: label and value.  
 
