@@ -11,315 +11,275 @@
  *
  */
 
-'use strict';
+class BarChart {
+  constructor(targetId, width, height, data) {
+    this.id = targetId;
+    this.width = width;
+    this.height = height;
+    this.data = data
 
-function BarChart(targetId, width, height, data){
-    // base
-    let chart = this;
+    // canvas specifications
+    // axis configurations
+    this.axisRatio = 10; // percentage
+    this.verticalMargin = (this.height * this.axisRatio) / 100;
+    this.horizontalMargin = (this.width * this.axisRatio) / 100;
+    this.axisColor = "#b1b1b1";
+    this.axisWidth = 0.75;
 
-    chart.configureChart(targetId, width, height, data)
-    // pre operations 
-    chart.performOperations();
-}
+    // label configurations
+    this.fontRatio = 3; // percentage
+    this.fontFamily = "times";
+    this.fontStyle = "normal";
+    this.fontWeight = 300;
+    this.fontColor = "#666";
+    this.verticalFontSize = (this.height * this.fontRatio) / 100;
+    this.horizontalFontSize = (this.width * this.fontRatio) / 100;
 
-// member functions
-BarChart.prototype.configureChart = function(targetId, width, height, data) {
-  // base
-  let chart = this;
+    // guide line configurations
+    this.guidelineColor = "#e5e5e5";
+    this.guidelineWidth = 0.5;
 
-  // global canvas specifications
-  chart.setCanvasParameters(targetId, width, height, data);
-
-  // canvas specifications
-  chart.setChartParameters();
-}
-
-BarChart.prototype.setCanvasParameters = function(targetId, width, height, data) {
-  // base
-  let chart = this;
-
-  // global specifications
-  chart.id = targetId;
-  chart.width = width;
-  chart.height = height;
-  chart.data = data;
-}
-
-BarChart.prototype.setChartParameters = function() {
-  // base
-  let chart = this;
-
-  // canvas specifications
-  // axis configurations
-  chart.axisRatio = 10; // percentage
-  chart.verticalMargin = (chart.height * chart.axisRatio) / 100;
-  chart.horizontalMargin = (chart.width * chart.axisRatio) / 100;
-  chart.axisColor = '#b1b1b1';
-  chart.axisWidth = 0.75;
-
-  // label configurations
-  chart.fontRatio = 3; // percentage
-  chart.fontFamily = 'times';
-  chart.fontStyle = 'normal';
-  chart.fontWeight = 300;
-  chart.fontColor = '#666';
-  chart.verticalFontSize = (chart.height * chart.fontRatio) / 100;
-  chart.horizontalFontSize = (chart.width * chart.fontRatio) / 100;
-
-  // guide line configurations
-  chart.guidelineColor = '#e5e5e5';
-  chart.guidelineWidth = 0.5  
-}
-
-BarChart.prototype.performOperations = function() {
-  // base
-  let chart = this;
-
-  // create the canvas
-  chart.createCanvas();
-
-  // get data
-  chart.handleData();
-
-  //prepare data
-  chart.prepareData();
-
-  // draw chart
-  chart.drawChart();
-}
-
-BarChart.prototype.createCanvas = function() {
-  // base
-  let chart = this;
-
-  let canvas = document.createElement('canvas');
-  canvas.id = `${chart.id}-${Math.random()}`;
-  canvas.width = chart.width;
-  canvas.height = chart.height;
-
-  // append canvas
-  document.getElementById(chart.id).innerHTML = '';
-  document.getElementById(chart.id).appendChild(canvas);
-
-  // add canvas to the chart object
-  chart.canvas = canvas;
-  chart.context = canvas.getContext('2d');
-}
-
-BarChart.prototype.handleData = function() {
-  // base
-  let chart = this;
-
-  //data sets
-  chart.labels = [];
-  chart.values = [];
-
-  // handle data
-  chart.data.forEach(item => {
-    chart.labels.push(item.label);
-    chart.values.push(item.value);
-  })
-}
-
-BarChart.prototype.prepareData = function() {
-  // base
-  let chart = this;
-
-  // global variables
-  chart.itemsNum = chart.data.length;
-  chart.maxValue = Math.max.apply(null, chart.values);
-  chart.minValue = Math.min.apply(null, chart.values);
-
-  // axis specifications
-  chart.verticalAxisWidth = chart.height - 2 * chart.verticalMargin; // bottom and top margin
-  chart.horizontalAxisWidth = chart.width - 2 * chart.horizontalMargin; // left and right margin
-
-  // label specifications
-  chart.verticalUpperBound = Math.ceil(chart.maxValue / 10) * 10;
-  chart.verticalLabelFrequency = chart.verticalUpperBound / chart.itemsNum;
-  chart.horizontalLabelFrequency = chart.horizontalAxisWidth / chart.itemsNum;
-
-}
-
-BarChart.prototype.drawChart = function() {
-  // base
-  let chart = this;
-
-  // draw the vertical axis
-  chart.drawVerticalAxis();
-
-  // draw the vertical labels
-  chart.drawVerticalLabels();
-
-  // draw the vertical guidelines
-  chart.drawVerticalGuidelines();
-
-  // draw the horizontal axis
-  chart.drawHorizontalAxis();
-
-  // draw the horizontal labels
-  chart.drawHorizontalLabels();
-
-  // draw the horizontal guidelines
-  chart.drawHorizontalGuidelines();
-
-  // draw the bars
-  chart.drawBars();
-}
-
-BarChart.prototype.drawVerticalAxis = function() {
-  // base
-  let chart = this;
-
-  chart.context.beginPath();
-  chart.context.strokeStyle = chart.axisColor;
-  chart.context.lineWidth = chart.axisWidth;
-  chart.context.moveTo(chart.horizontalMargin, chart.verticalMargin);
-  chart.context.lineTo(chart.horizontalMargin, chart.height - chart.verticalMargin);
-  chart.context.stroke();
-}
-
-BarChart.prototype.drawVerticalLabels = function() {
-  // base
-  let chart = this;
-
-  // text specifications
-  chart.labelFont = `${chart.fontStyle} ${chart.fontWeight} ${chart.verticalFontSize}px ${chart.fontFamily}`;
-  chart.context.font = chart.labelFont;
-  chart.context.textAlign = 'right';
-  chart.context.fillStyle = chart.fontColor;
-
-  // scale values
-  let scaledVerticalLabelFreq = (chart.verticalAxisWidth / chart.verticalUpperBound) * chart.verticalLabelFrequency;
-
-  // draw labels
-  for(let i = 0; i <= chart.itemsNum; i++) {
-    let labelText = chart.verticalUpperBound - i * chart.verticalLabelFrequency;
-    let verticalLabelX = chart.horizontalMargin - chart.horizontalMargin / chart.axisRatio;
-    let verticalLabelY = chart.verticalMargin + i * scaledVerticalLabelFreq;
-
-    chart.context.fillText(labelText, verticalLabelX, verticalLabelY);
+    this.performOperations();
   }
-}
 
-BarChart.prototype.drawVerticalGuidelines = function() {
-  // base
-  let chart = this;
+  drawBars() {
+    const fillOpacity = 0.3;
+    let color;
+    let fillColor;
+    let borderColor;
+    let barX;
+    let barY;
 
-  // specifications
-  chart.context.strokeStyle = chart.guidelineColor;
-  chart.context.lineWidth = chart.guidelineWidth;
+    let barWidth;
+    let barHeight;
+    
+    for(let i = 0; i < this.itemsNum; i++) {
+      color = this.createRandomColor();
+      fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${fillOpacity})`;
+      borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
 
-  // draw labels
-  for(let i = 0; i <= chart.itemsNum; i++) {
-    let verticalGuidelineStartX = chart.horizontalMargin + i * chart.horizontalLabelFrequency;
-    let verticalGuidelineStartY = chart.height - chart.verticalMargin;
+      this.context.beginPath();
+  
+      barX = this.horizontalMargin + i * this.horizontalLabelFrequency + this.horizontalLabelFrequency / this.axisRatio;
+      barY = this.height - this.verticalMargin;
+  
+      barWidth = this.horizontalLabelFrequency - 2 * this.horizontalLabelFrequency / this.axisRatio;
+      barHeight = -1 * this.verticalAxisWidth * this.values[i] / this.maxValue;
+  
+      this.context.fillStyle = fillColor;
+      this.context.strokeStyle = borderColor;
+      this.context.rect(barX, barY, barWidth, barHeight);
+      this.context.stroke();
+      this.context.fill();
+    }
+  }
+
+  drawLine(startX, startY, endX, endY) {
+    this.context.beginPath();
+    this.context.moveTo(startX, startY);
+    this.context.lineTo(endX, endY);
+    this.context.stroke();
+  }
+
+  createRandomColor() {
+    const red = getRandomInt(0, 257);
+    const green = getRandomInt(0, 257);
+    const blue = getRandomInt(0, 257);
+  
+    return { r: red, g: green, b: blue};
+  }
+
+  performOperations() {
+    // create the canvas
+    this.createCanvas();
+
+    // get data
+    this.handleData();
+  
+    //prepare data
+    this.prepareData();
+  
+    // draw chart
+    this.drawChart();
+  }
+
+  createCanvas() {
+    const canvas = document.createElement("canvas");
+    canvas.id = this.id;
+    canvas.width = this.width;
+    canvas.height = this.height;
+
+    // append canvas
+    document.getElementById(this.id).innerHTML = "";
+    document.getElementById(this.id).appendChild(canvas);
+
+    // add canvas to the chart object
+    this.canvas = canvas;
+    this.context = canvas.getContext("2d");
+  }
+
+  handleData() {
+    //data sets
+    this.labels = [];
+    this.values = [];
+  
+    // handle data
+    this.data.forEach(item => {
+      this.labels.push(item.label);
+      this.values.push(item.value);
+    });
+  }
+
+  prepareData() {
+    // global variables
+    this.itemsNum = this.data.length;
+    this.maxValue = Math.max.apply(null, this.values);
+    this.minValue = Math.min.apply(null, this.values);
+
+    // axis specifications
+    this.verticalAxisWidth = this.height - 2 * this.verticalMargin; // bottom and top margin
+    this.horizontalAxisWidth = this.width - 2 * this.horizontalMargin; // left and right margin
+
+    // label specifications
+    this.verticalUpperBound = Math.ceil(this.maxValue / 10) * 10;
+    this.verticalLabelFrequency = this.verticalUpperBound / this.itemsNum;
+    this.horizontalLabelFrequency = this.horizontalAxisWidth / this.itemsNum;
+  }
+
+  drawChart() {
+    // draw the vertical axis
+    this.drawVerticalAxis();
+
+    // draw the vertical labels
+    this.drawVerticalLabels();
+
+    // draw the vertical guidelines
+    this.drawVerticalGuidelines();
+
+    // draw the horizontal axis
+    this.drawHorizontalAxis();
+
+    // draw the horizontal labels
+    this.drawHorizontalLabels();
+
+    // draw the horizontal guidelines
+    this.drawHorizontalGuidelines();
+
+    // draw the bars
+    this.drawBars();
+  }
+
+  drawVerticalAxis() {
+    this.context.strokeStyle = this.axisColor;
+    this.context.lineWidth = this.axisWidth;
+    this.drawLine(this.horizontalMargin, this.verticalMargin, this.horizontalMargin, this.height - this.verticalMargin)
+  }
+
+  drawVerticalLabels() {
+    let labelText;
+    let verticalLabelX;
+    let verticalLabelY;
+
+    // text specifications
+    this.labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize}px ${this.fontFamily}`;
+    this.context.font = this.labelFont;
+    this.context.textAlign = "right";
+    this.context.fillStyle = this.fontColor;
+
+    // scale values
+    const scaledVerticalLabelFreq = (this.verticalAxisWidth / this.verticalUpperBound) * this.verticalLabelFrequency;
+
+    // draw labels
+    for(let i = 0; i <= this.itemsNum; i++) {
+      labelText = this.verticalUpperBound - i * this.verticalLabelFrequency;
+      verticalLabelX = this.horizontalMargin - this.horizontalMargin / this.axisRatio;
+      verticalLabelY = this.verticalMargin + i * scaledVerticalLabelFreq;
+
+      this.context.fillText(labelText, verticalLabelX, verticalLabelY);
+    }
+  }
+
+  drawVerticalGuidelines() {
+    // start point coordinates
+    let verticalGuidelineStartX;
+    let verticalGuidelineStartY;
 
     // end point coordinates
-    let verticalGuidelineEndX = chart.horizontalMargin + i * chart.horizontalLabelFrequency;
-    let verticalGuidelineEndY = chart.verticalMargin;
+    let verticalGuidelineEndX;
+    let verticalGuidelineEndY;
 
-    chart.context.beginPath();
-    chart.context.moveTo(verticalGuidelineStartX, verticalGuidelineStartY);
-    chart.context.lineTo(verticalGuidelineEndX, verticalGuidelineEndY);
-    chart.context.stroke();
+    // specifications
+    this.context.strokeStyle = this.guidelineColor;
+    this.context.lineWidth = this.guidelineWidth;
+
+    // draw labels
+    for(let i = 0; i <= this.itemsNum; i++) {
+      // start point coordinates
+      verticalGuidelineStartX = this.horizontalMargin + i * this.horizontalLabelFrequency;
+      verticalGuidelineStartY = this.height - this.verticalMargin;
+
+      // end point coordinates
+      verticalGuidelineEndX = this.horizontalMargin + i * this.horizontalLabelFrequency;
+      verticalGuidelineEndY = this.verticalMargin;
+
+      // draw guidelines
+      this.drawLine(verticalGuidelineStartX, verticalGuidelineStartY, verticalGuidelineEndX, verticalGuidelineEndY)
+    }
   }
-}
 
-BarChart.prototype.drawHorizontalAxis = function() {
-  // base
-  let chart = this;
-
-  chart.context.beginPath();
-  chart.context.strokeStyle = chart.axisColor;
-  chart.context.lineWidth = chart.axisWidth;
-  chart.context.moveTo(chart.horizontalMargin, chart.height - chart.verticalMargin);
-  chart.context.lineTo(chart.width - chart.horizontalMargin, chart.height - chart.verticalMargin);
-  chart.context.stroke();
-}
-
-BarChart.prototype.drawHorizontalLabels = function() {
-  // base
-  let chart = this;
-
-  // text specifications
-  chart.labelFont = `${chart.fontStyle} ${chart.fontWeight} ${chart.verticalFontSize}px ${chart.fontFamily}`;
-  chart.context.font = chart.labelFont;
-  chart.context.textAlign = 'center';
-  chart.context.textBaseline = 'top';
-  chart.context.fillStyle = chart.fontColor;
-
-  // draw labels
-  for(let i = 0; i < chart.itemsNum; i++) {
-    let horizonalLabelX = chart.horizontalMargin + i * chart.horizontalLabelFrequency + chart.horizontalLabelFrequency / 2;
-    let horizonalLabelY = chart.height - chart.verticalMargin + chart.verticalMargin / chart.axisRatio;
-
-    chart.context.fillText(chart.labels[i], horizonalLabelX, horizonalLabelY);
-    
+  drawHorizontalAxis() {
+    this.context.strokeStyle = this.axisColor;
+    this.context.lineWidth = this.axisWidth;
+    this.drawLine(this.horizontalMargin, this.height - this.verticalMargin, this.width - this.horizontalMargin, this.height - this.verticalMargin);
   }
-}
 
-BarChart.prototype.drawHorizontalGuidelines = function() {
-  // base
-  let chart = this;
+  drawHorizontalLabels() {
+    let horizonalLabelX;
+    let horizonalLabelY;
 
-  // specifications
-  chart.context.strokeStyle = chart.guidelineColor;
-  chart.context.lineWidth = chart.guidelineWidth;
+    // text specifications
+    this.labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize}px ${this.fontFamily}`;
+    this.context.font = this.labelFont;
+    this.context.textAlign = "center";
+    this.context.textBaseline = "top";
+    this.context.fillStyle = this.fontColor;
+  
+    // draw labels
+    for(let i = 0; i < this.itemsNum; i++) {
+      horizonalLabelX = this.horizontalMargin + i * this.horizontalLabelFrequency + this.horizontalLabelFrequency / 2;
+      horizonalLabelY = this.height - this.verticalMargin + this.verticalMargin / this.axisRatio;
+  
+      this.context.fillText(this.labels[i], horizonalLabelX, horizonalLabelY);  
+    }
+  }
 
-  // scale values
-  let scaledVerticalLabelFreq = (chart.verticalAxisWidth / chart.verticalUpperBound) * chart.verticalLabelFrequency;
-
-  // draw labels
-  for(let i = 0; i <= chart.itemsNum; i++) {
-
+  drawHorizontalGuidelines() {
     // starting point coordinates
-    let horizontalGuidelineStartX = chart.horizontalMargin;
-    let horizontalGuidelineStartY = chart.verticalMargin + i * scaledVerticalLabelFreq;
+    let horizontalGuidelineStartX;
+    let horizontalGuidelineStartY;
 
     // ending point coordinates
-    let horizontalGuidelineEndX = chart.horizontalMargin + chart.horizontalAxisWidth;
-    let horizontalGuidelineEndY = chart.verticalMargin + i * scaledVerticalLabelFreq;
+    let horizontalGuidelineEndX;
+    let horizontalGuidelineEndY;
 
-    chart.context.beginPath();
-    chart.context.moveTo(horizontalGuidelineStartX, horizontalGuidelineStartY);
-    chart.context.lineTo(horizontalGuidelineEndX, horizontalGuidelineEndY);
-    chart.context.stroke();
-  }
-}
-
-BarChart.prototype.drawBars = function() {
-  // base
-  let chart = this;
-
+    // specifications
+    this.context.strokeStyle = this.guidelineColor;
+    this.context.lineWidth = this.guidelineWidth;
   
-  for(let i = 0; i < chart.itemsNum; i++) {
-    let color = chart.createRandomColor();
-    let fillOpacity = 0.3;
-    let fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${fillOpacity})`;
-    let borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
+    // scale values
+    const scaledVerticalLabelFreq = (this.verticalAxisWidth / this.verticalUpperBound) * this.verticalLabelFrequency;
+  
+    // draw labels
+    for(let i = 0; i <= this.itemsNum; i++) {
+      // starting point coordinates
+      horizontalGuidelineStartX = this.horizontalMargin;
+      horizontalGuidelineStartY = this.verticalMargin + i * scaledVerticalLabelFreq;
+  
+      // ending point coordinates
+      horizontalGuidelineEndX = this.horizontalMargin + this.horizontalAxisWidth;
+      horizontalGuidelineEndY = this.verticalMargin + i * scaledVerticalLabelFreq;
 
-    chart.context.beginPath();
-
-    let barX = chart.horizontalMargin + i * chart.horizontalLabelFrequency + chart.horizontalLabelFrequency / chart.axisRatio;
-    let barY = chart.height - chart.verticalMargin;
-
-    let barWidth = chart.horizontalLabelFrequency - 2 * chart.horizontalLabelFrequency / chart.axisRatio;
-    let barHeight = -1 * chart.verticalAxisWidth * chart.values[i] / chart.maxValue;
-
-    chart.context.fillStyle = fillColor;
-    chart.context.strokeStyle = borderColor;
-
-    chart.context.rect(barX, barY, barWidth, barHeight);
-    chart.context.stroke();
-    chart.context.fill();
+      this.drawLine(horizontalGuidelineStartX, horizontalGuidelineStartY, horizontalGuidelineEndX, horizontalGuidelineEndY);
+    }
   }
-}
-
-BarChart.prototype.createRandomColor = function() {
-  let red = getRandomInt(0, 257);
-  let green = getRandomInt(0, 257);
-  let blue = getRandomInt(0, 257);
-
-  return { r: red, g: green, b: blue};
 }
