@@ -1,5 +1,11 @@
 window.onload = function() {
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min); //The maximum is exclusive and the minimum is inclusive
+  }
+
   var min = 1;
   var max = 200;
 
@@ -19,11 +25,4 @@ window.onload = function() {
 
   // Create Chart
   var chart = new BarChart(targetId, canvasWidth, canvasHeight, data);
-
 };
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
