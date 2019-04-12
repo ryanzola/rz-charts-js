@@ -42,6 +42,12 @@ class BarChart {
     this.performOperations();
   }
 
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+  }
+
   drawBars() {
     const fillOpacity = 0.3;
     let color;
@@ -82,9 +88,9 @@ class BarChart {
   }
 
   createRandomColor() {
-    const red = getRandomInt(0, 257);
-    const green = getRandomInt(0, 257);
-    const blue = getRandomInt(0, 257);
+    const red = this.getRandomInt(0, 257);
+    const green = this.getRandomInt(0, 257);
+    const blue = this.getRandomInt(0, 257);
   
     return { r: red, g: green, b: blue};
   }

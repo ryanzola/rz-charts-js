@@ -1,16 +1,16 @@
-window.onload = function() {
+window.onload = () => {
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + Math.ceil(min); //The maximum is exclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
   }
 
-  var min = 1;
-  var max = 200;
+  const min = 1;
+  const max = 200;
 
   // Chart Data
-  var data = [
+  const data = [
     {label: "Jan", value: getRandomInt(min, max)},
     {label: "Feb", value: getRandomInt(min, max)},
     {label: "March", value: getRandomInt(min, max)},
@@ -19,10 +19,10 @@ window.onload = function() {
   ];
 
   // Chart Specifications
-  var targetId = "chart";
-  var canvasWidth = 600;
-  var canvasHeight = 450;
+  const targetId = "chart";
+  const canvasWidth = 600;
+  const canvasHeight = 450;
 
   // Create Chart
-  var chart = new BarChart(targetId, canvasWidth, canvasHeight, data);
+  const chart = new BarChart(targetId, canvasWidth, canvasHeight, data);
 };
