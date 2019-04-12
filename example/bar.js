@@ -16,7 +16,7 @@ class BarChart {
     this.id = targetId;
     this.width = width;
     this.height = height;
-    this.data = data
+    this.data = data;
 
     // canvas specifications
     // axis configurations
@@ -124,7 +124,7 @@ class BarChart {
     this.values = [];
   
     // handle data
-    this.data.forEach(item => {
+    this.data.forEach((item) => {
       this.labels.push(item.label);
       this.values.push(item.value);
     });
@@ -172,7 +172,7 @@ class BarChart {
   drawVerticalAxis() {
     this.context.strokeStyle = this.axisColor;
     this.context.lineWidth = this.axisWidth;
-    this.drawLine(this.horizontalMargin, this.verticalMargin, this.horizontalMargin, this.height - this.verticalMargin)
+    this.drawLine(this.horizontalMargin, this.verticalMargin, this.horizontalMargin, this.height - this.verticalMargin);
   }
 
   drawVerticalLabels() {
@@ -223,7 +223,7 @@ class BarChart {
       verticalGuidelineEndY = this.verticalMargin;
 
       // draw guidelines
-      this.drawLine(verticalGuidelineStartX, verticalGuidelineStartY, verticalGuidelineEndX, verticalGuidelineEndY)
+      this.drawLine(verticalGuidelineStartX, verticalGuidelineStartY, verticalGuidelineEndX, verticalGuidelineEndY);
     }
   }
 
