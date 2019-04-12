@@ -1,5 +1,7 @@
 # rz-charts-js
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/74ab68b4670b46deac1969a82b925c7c)](https://app.codacy.com/app/ryanzola/rz-charts-js?utm_source=github.com&utm_medium=referral&utm_content=ryanzola/rz-charts-js&utm_campaign=Badge_Grade_Dashboard)
+
 Lightweight bar chart generator using canvas
 
 ![GitHub](https://img.shields.io/github/license/ryanzola/rz-charts-js.svg)
