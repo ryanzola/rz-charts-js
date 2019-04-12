@@ -11,6 +11,8 @@
  *
  */
 
+"use strict";
+
 class BarChart {
   constructor(targetId, width, height, data) {
     this.id = targetId;
